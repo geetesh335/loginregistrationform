@@ -1,4 +1,4 @@
-import React,{useState} from 'react';
+import React, {useState, useContext} from 'react';
 import {
   View,
   Text,
@@ -17,28 +17,24 @@ import * as Animatable from 'react-native-animatable';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Feather from 'react-native-vector-icons/Feather';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
+import {AuthContext} from '../../component/context';
 
+const SignScreen = ({navigation}) => {
+  const [data, setData] = useState({
+    username: '',
+    password: '',
+    check_textInputChange: false,
+    secureTextEntry: true,
+  });
 
-const SignScreen = () => {
-  
-  const [data,setData] = useState({
-   
-    username:'',
-    password:'',
-    check_textInputChange:false,
-    secureTextEntry:true,
-    isValidUser:true,
-    isValidPassword:true,
-  
-  })
+  const {signIn} = useContext(AuthContext);
 
   const updateSecureTextEntry = () => {
-
     setData({
       ...data,
-      secureTextEntry:!data.secureTextEntry,
-    })
-  }
+      secureTextEntry: !data.secureTextEntry,
+    });
+  };
   return (
     <View style={styles.container}>
       <StatusBar backgroundColor="#009387" barStyle="light-content" />
@@ -59,20 +55,21 @@ const SignScreen = () => {
             placeholderTextColor="#666666"
             autoCapitalize="none"
           />
-          {data.check_textInputChange?(
+          
+          {/* <animitable/> */}
+        </View>
+        {data.check_textInputChange ? (
             <Animatable.View animation="bounceIn">
-              <Feather name="check-circle" color="green" size={20}/>
+              <Feather name="check-circle" color="green" size={20} />
             </Animatable.View>
-          ):null}
-          {data.isValidPassword ?null:(
-            <Animatable.View animation="fadeInLeft" duration={500} >
+          ) : null}
+          {data.isValidPassword ? null : (
+            <Animatable.View animation="fadeInLeft" duration={500}>
               <Text style={styles.errorMsg}>
                 userName must be 4 characters long.
               </Text>
             </Animatable.View>
           )}
-          {/* <animitable/> */}
-        </View>
         <Text style={styles.text_footer}>Password</Text>
         <View style={styles.action}>
           <Feather name="lock" color="grey" size={20} />
@@ -82,40 +79,40 @@ const SignScreen = () => {
             autoCapitalize="none"
             style={styles.textinput}
           />
-          <TouchableOpacity  onPress={updateSecureTextEntry}>
-          {data.secureTextEntry?(
-            <Feather name="eye-off" color="grey" size={20}/>
-          ):(<Feather name="eye" color="grey" size={20}/>)}
-
+          <TouchableOpacity onPress={updateSecureTextEntry}>
+            {data.secureTextEntry ? (
+              <Feather name="eye-off" color="grey" size={20} />
+            ) : (
+              <Feather name="eye" color="grey" size={20} />
+            )}
           </TouchableOpacity>
         </View>
         {data.isValidPassword ? null : (
-          <Animatable.View  animation="fadeInLeft" duration={500}>
-             <Text style={styles.errorMsg}>
-               Password must be 8 charachters long
-             </Text>
+          <Animatable.View animation="fadeInLeft" duration={500}>
+            <Text style={styles.errorMsg}>
+              Password must be 8 charachters long
+            </Text>
           </Animatable.View>
-        )
-
-        }
+        )}
         <TouchableOpacity>
           <Text style={{color: '#009387', marginTop: 15}}>
             Forgot Password ?
           </Text>
         </TouchableOpacity>
         <View style={styles.button}>
-          <TouchableOpacity style={styles.signIn}>
+          <TouchableOpacity
+            style={[styles.signIn, {backgroundColor: '#009387'}]}
+            onPress={() => {signIn()}}>
             <Text style={styles.textsign}>Sign In</Text>
           </TouchableOpacity>
           <TouchableOpacity
-            style={
-              ([styles.signIn],
-              {borderColor: '#009387', borderWidth: 1, marginTop: 15})
-            }>
-            <Text style={([styles.textsign], {color: '#009387'})}>sign up</Text>
+            style={[
+              styles.signIn,
+              {borderColor: '#009387', borderWidth: 1, marginTop: 15},
+            ]}>
+            <Text style={[styles.textsign, {color: '#009387'}]}>sign up</Text>
           </TouchableOpacity>
         </View>
-        
       </Animatable.View>
     </View>
   );
@@ -152,7 +149,7 @@ const styles = StyleSheet.create({
   action: {
     flexDirection: 'row',
     marginTop: 10,
-    borderBottomWidth: 1,
+    
     borderBottomColor: '#ff0000',
     paddingBottom: 5,
   },
@@ -177,9 +174,9 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: 'bold',
   },
-  errorMsg:{
-    color:'#ff0000',
-    fontSize:14,
-  }
+  errorMsg: {
+    color: '#ff0000',
+    fontSize: 14,
+  },
 });
 export default SignScreen;

@@ -1,12 +1,24 @@
-import React from 'react'
-import { View, Text } from 'react-native'
+import React from 'react';
+import { View, Text, Button, StyleSheet } from 'react-native';
 
-const BookMarkScreen = () => {
+const BookmarkScreen = () => {
     return (
-        <View>
-            <Text>this is bookmarkscreen</Text>
-        </View>
-    )
-}
+      <View style={styles.container}>
+        <Text>Bookmark Screen</Text>
+        <Button
+          title="Click Here"
+          onPress={() => alert('Button Clicked!')}
+        />
+      </View>
+    );
+};
 
-export default BookMarkScreen
+export default BookmarkScreen;
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1, 
+    alignItems: 'center', 
+    justifyContent: 'center'
+  },
+});
